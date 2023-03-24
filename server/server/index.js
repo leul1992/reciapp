@@ -10,6 +10,7 @@ app.use(express.json());
 // Create users table if it doesn't exist
 db.serialize(() => {
     db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, password TEXT)");
+    db.run("CREATE TABLE IF NOT EXISTS favourites (id INTEGER PRIMARY KEY AUTOINCREMENT, userid INTEGER, recipeid INTEGER)");
 });
 
 // Login endpoint
@@ -84,6 +85,52 @@ app.post('/api/signup', (req, res) => {
     });
 });
 
+app.post('/api/saveFavourites', (req, res) =>{
+    const { userId, recipeId } = req.body;
+    if (!userId || !recipeId){
+        return res.json({success: false, error: 'Something Went Wrong'})
+    }
+
+    db.get('SELECT * FROM favourites WHERE userid = ?', userId, (err, row) => {
+        if (err) {
+            console.error(err.message);
+            return res.json({ success: false, error: 'Database error'});
+        } else if (!row) {
+            db.run('INSERT INTO favourites (userid, recipeid) VALUES(?,?)', [userId, recipeId], (err) => {
+                if (err) {
+                    console.error(err.message);
+                    return res.json({ success: false, error: 'Database error'});
+                }
+                return res.json({ success: true, favourites: {userId, recipeId}});
+            });
+        } else {
+            const arr = [row.recipeid, recipeId];
+            db.run('UPDATE favourites SET recipeid = ? WHERE userid = ?', [arr.join(','), userId], (err) => {
+                if (err) {
+                    console.error(err.message);
+                    return res.json({ success: false, error: 'Database error'});
+                }
+                return res.json({ success: true, favourites: {userId, recipeId}});
+            });
+        }
+    });
+});
+app.post('/api/showfavourites', (req, res) => {
+    const {userid} = req.body;
+    if (!userid){
+        return res.json({success: false, error: 'Something Went Wrong'});
+    }
+    db.get('SELECT * FROM favourites WHERE userid = ?', userid, (err, row) => {
+        if (err) {
+            console.error(err.message);
+            return res.json({ success: false, error: 'Database error'});
+        } else if (!row) {
+            return res.json({ success: false, error: 'No Saved Data'})
+        } else {
+            return res.json({success:true, favourites: row.recipeid});
+        }
+});
+});
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

@@ -4,12 +4,18 @@ import { StyleSheet, css } from 'aphrodite';
 import ShowRecipeDetail from './showRecipeDetail';
 import SelectPreference from '../preferences/preferences';
 import { preferencesReducer } from '../reducers/preferenceReducer';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import useHelper from './showOrHideDetail';
+import { hideDetails } from '../actions';
 
 function ShowRecipe() {
   const [recipes, setRecipes] = useState([]);
   const [visibleSelected, setVisibleSelected] =useState(null);
   const preferneces = useSelector(state => state.preferences);
+  const [showPrefer, setShowPrefer] = useState(false);
+  const {details, showDetail, hideDetail} = useHelper();
+  const dispatch = useDispatch();
+
 console.log(preferneces);
   useEffect(() => {
     fetchData('',preferneces.type,preferneces.diet,preferneces.intolerance,preferneces.maxTime).then(data => {
@@ -20,7 +26,12 @@ console.log(preferneces);
   }, [preferneces]);
 
   const handleRecipeClick = (recipe) => {
-    setVisibleSelected(recipe)
+    /* hideDetail(); */
+    setVisibleSelected(true);
+  }
+
+  const handleShowPrefer = () => {
+    setShowPrefer(!showPrefer);
   }
 
 
@@ -32,7 +43,11 @@ console.log(preferneces);
         />
       ) : (
         <>
-          <SelectPreference />
+
+          <p
+          onClick={handleShowPrefer}
+          className={css(styleRecipe.h3)}>{showPrefer ? 'Hide Preference':'Show Preference'}</p>
+            {showPrefer && <SelectPreference />}
                 <div className={css(styleRecipe.allRecipes)}>
           {recipes.map(recipe => (
             <div
@@ -71,7 +86,15 @@ const styleRecipe = StyleSheet.create({
     cursor: 'pointer',
     
     
-  }
+  },
+  h3: {
+    border: '10px ridge rgba(41, 74, 48,0.2)',
+    borderRadius: '13%',
+    width: '180px',
+    textAlign: 'center',
+    color: '#999fc4',
+    cursor: 'pointer',
+  },
 });
 
 export default ShowRecipe;

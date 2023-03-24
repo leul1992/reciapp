@@ -9,6 +9,8 @@ export const LOGIN_ERROR = "LOGIN_ERROR";
 export const SIGNUP_SUCCESS= 'SIGNUP_SUCCESS';
 export const SIGNUP_ERROR= 'SIGNUP_ERROR';
 export const LOGOUT= 'LOGOUT';
+export const SHOWDETAIL = 'SHOWDETAIL';
+export const HIDEDETAIL = 'HIDEDETAIL';
 /* export const ADD_FAVOURITES = 'ADD_FAVOURITES';
  */
 
@@ -72,6 +74,16 @@ export function signupError(error) {
 export function logoutUser() {
   return {
     type: LOGOUT,
+  }
+}
+export function showDetails() {
+  return {
+    type: SHOWDETAIL,
+  }
+}
+export function hideDetails() {
+  return {
+    type: HIDEDETAIL,
   }
 }
 

@@ -5,30 +5,18 @@ import React from 'react';
 import Footer from '../Footer/footer';
 import './App.css'
 import AuthComponent from '../Authenticate/loginSingup';
-
+import ShowRecipe from '../ShowRecipe/showrecipe';
+import { useSelector } from 'react-redux';
+import useAuth from '../Authenticate/authenticate';
 
 
 function App() {
+
   
   return (
     <React.Fragment>
       <Header />
-
-      {/* <trialMode /> */}
       <AuthComponent />
-        {/* <ParentComponent /> */}
-      {/* <SelectPreference /> */}
-      {/* <ShowRecipe /> */}
-     {/*  <TryShowDetail /> */}
-      {/* <TryShow /> */}
-      {/* {<ShowRecipe />} */}
-      
-      {/* {<Login />} */}
-      {/* <Signup /> */}
-      {/* <div className="App">
-        <h1>ReciApp</h1>
-      </div> */}
-    
       <Footer/>
     </React.Fragment>
   );

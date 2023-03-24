@@ -1,12 +1,12 @@
 const saveToFavourites = async (userId, recipeId) => {
     try {
-      const response = await fetch('/api/favourites', {
+      const response = await fetch('/api/saveFavourites', {
         method: 'POST',
-        body: JSON.stringify(userId, recipeId),
+        body: JSON.stringify({userId, recipeId}),
         headers: { 'Content-Type': 'application/json' },
       });
     } catch (error) {
-      dispatch(loginError(error.message));
+      console.error('can\'t fetch');
     }
   };
 
