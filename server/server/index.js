@@ -86,7 +86,9 @@ app.post('/api/signup', (req, res) => {
 });
 
 app.post('/api/saveFavourites', (req, res) =>{
-    const { userId, recipeId } = req.body;
+    let { userId, recipeId } = req.body;
+    userId = parseInt(userId);
+    recipeId = parseInt(recipeId);
     if (!userId || !recipeId){
         return res.json({success: false, error: 'Something Went Wrong'})
     }
@@ -115,19 +117,20 @@ app.post('/api/saveFavourites', (req, res) =>{
         }
     });
 });
-app.post('/api/showfavourites', (req, res) => {
-    const {userid} = req.body;
-    if (!userid){
+app.get('/api/showfavourites', (req, res) => {
+    let {userId} = req.query;
+    userId = parseInt(userId);
+    if (!userId){
         return res.json({success: false, error: 'Something Went Wrong'});
     }
-    db.get('SELECT * FROM favourites WHERE userid = ?', userid, (err, row) => {
+    db.get('SELECT * FROM favourites WHERE userid = ?', userId, (err, row) => {
         if (err) {
             console.error(err.message);
             return res.json({ success: false, error: 'Database error'});
         } else if (!row) {
             return res.json({ success: false, error: 'No Saved Data'})
         } else {
-            return res.json({success:true, favourites: row.recipeid});
+            return res.json({success:true, fav: {recipeid: row.recipeid}});
         }
 });
 });

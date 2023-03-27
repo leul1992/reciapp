@@ -3,10 +3,9 @@ import fetchData from '../utils/utils';
 import { StyleSheet, css } from 'aphrodite';
 import ShowRecipeDetail from './showRecipeDetail';
 import SelectPreference from '../preferences/preferences';
-import { preferencesReducer } from '../reducers/preferenceReducer';
 import { useSelector, useDispatch } from 'react-redux';
 import useHelper from './showOrHideDetail';
-import { hideDetails } from '../actions';
+import ShowFavourites from '../favourites/showFavourites';
 
 function ShowRecipe() {
   const [recipes, setRecipes] = useState([]);
@@ -26,18 +25,21 @@ console.log(preferneces);
   }, [preferneces]);
 
   const handleRecipeClick = (recipe) => {
-    /* hideDetail(); */
-    setVisibleSelected(true);
+    setVisibleSelected(recipe);
+    showDetail();
   }
 
   const handleShowPrefer = () => {
     setShowPrefer(!showPrefer);
   }
+  
 
+  
 
   return (
     <div>
-      {visibleSelected ? (
+      
+      {details.showDetail ? (
         <ShowRecipeDetail
         id={visibleSelected}
         />

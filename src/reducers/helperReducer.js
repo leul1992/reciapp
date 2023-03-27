@@ -14,6 +14,7 @@ export const helperReducer = (state=initialState, action) => {
             return {
                 ...state,
                 showDetail: true,
+
             };
         default:
             return state;

@@ -11,7 +11,7 @@ import ShowRecipe from "./showrecipe";
 
 function ShowRecipeDetail(props) {
   const [recipeDetails, setRecipeDetails] = useState([]);
-  const {authenticate} = useAuth();
+  const {authentication} = useAuth();
   const {details, hideDetail} = useHelper();
   useEffect(() => {
     fetchData(props.id).then(data => {
@@ -22,7 +22,7 @@ function ShowRecipeDetail(props) {
   }, [props.id]);
 
   const handleSaveFavourite = ({onSubmit, error}) => {
-    saveToFavourites(authenticate.user.id, props.id);
+    saveToFavourites(authentication.user.id, props.id);
   }
 
   const handleShowDetail = () => {
@@ -42,11 +42,10 @@ function ShowRecipeDetail(props) {
 
   return (
     <>
-    
-    {/* {!details.showDetail ? <ShowRecipe /> : */}
     <div>
       <div
-      onClick={handleShowDetail}>Back</div>
+      onClick={handleShowDetail}
+      >Back</div>
         <div className={css(styleRecipe.whole)}>
           <div key={recipeDetails.id} className={css(styleRecipe.allRecipes)}>
             <div className={css(styleRecipe.recipe)}>
@@ -71,7 +70,6 @@ function ShowRecipeDetail(props) {
           </div>
         </div>
     </div>
-}
     </>
   );
 }

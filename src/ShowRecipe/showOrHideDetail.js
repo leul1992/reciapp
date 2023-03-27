@@ -13,5 +13,5 @@ export default function useHelper() {
     }
     return {
         details, hideDetail, showDetail
-    }
+    };
 }

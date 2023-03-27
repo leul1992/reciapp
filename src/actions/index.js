@@ -76,7 +76,7 @@ export function logoutUser() {
     type: LOGOUT,
   }
 }
-export function showDetails() {
+export function showDetails(recipeId) {
   return {
     type: SHOWDETAIL,
   }

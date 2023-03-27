@@ -1,14 +1,9 @@
-import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import useAuth from "../Authenticate/authenticate";
 
 const getFavourites = async (userId) => {
   try {
-    const response = await fetch('/api/showfavourites', {
-      method: 'POST',
-      body: JSON.stringify({ userId }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await fetch(`/api/showfavourites?userid=${userId}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -17,24 +12,28 @@ const getFavourites = async (userId) => {
 };
 
 const ShowFavourites = () => {
-  const {authenticate}= useAuth();
+  const {authentication}= useAuth();
   const [favourites, setFavourites] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getFavourites(authenticate.user.id);
-      setFavourites(data);
+      const favourite = await getFavourites(authentication.user.id);
+      setFavourites(favourite.fav.recipeid);
+      setIsLoading(false);
     };
     fetchData();
-  }, [authenticate.user.id]);
+  }, [authentication.user.id]);
+
+  
 
   return (
-    <>
-  
-      {favourites.map(fav => (
+    <> <p>{isLoading? 'yes':'no'}</p>
+    {favourites ? favourites.map(fav => (
         <div key={fav}>
           <h2>{fav}</h2>
         </div>
-      ))}
+      )) : <p>No Favourites</p>}
+
     </>
   );
 };
