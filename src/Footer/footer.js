@@ -28,7 +28,7 @@ const footerStyle = StyleSheet.create({
 
     footer: {
         
-        backgroundColor: 'rgba(85, 125, 96, 0.3)',
+        backgroundColor: 'rgba(85, 125, 96, 0.1)',
         padding: '1px',
         
     }

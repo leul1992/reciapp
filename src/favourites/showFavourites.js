@@ -18,7 +18,7 @@ const ShowFavourites = () => {
   useEffect(() => {
     const fetchData = async () => {
       const favourite = await getFavourites(authentication.user.id);
-      setFavourites(favourite.fav.recipeid);
+      setFavourites(favourite.recipeid);
       setIsLoading(false);
     };
     fetchData();

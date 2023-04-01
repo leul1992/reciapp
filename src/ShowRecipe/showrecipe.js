@@ -38,7 +38,7 @@ console.log(preferneces);
 
   return (
     <div>
-      
+      <ShowFavourites />
       {details.showDetail ? (
         <ShowRecipeDetail
         id={visibleSelected}
@@ -57,7 +57,11 @@ console.log(preferneces);
             className={css(styleRecipe.recipe)}
             onClick={() => handleRecipeClick(recipe.id)}
             >
-              <img src={recipe.image} alt={recipe.title} />
+              <img
+              src={recipe.image}
+              alt={recipe.title}
+              className={css(styleRecipe.image)}
+              />
               <h2>{recipe.title}</h2>
             </div>
           ))}
@@ -71,21 +75,23 @@ console.log(preferneces);
 const styleRecipe = StyleSheet.create({
   allRecipes: {
     display: 'flex',
-    flexDirection: "column",
+    flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: '10px'
+    marginBottom: '15px'
     
   },
+  
   recipe: {
     margin: '50px 0 10px 0',
     padding: '10px',
-    border: '10px ridge rgba(41, 74, 48,0.2)',
+    border: '10px none rgba(41, 74, 48,0.2)',
     borderRadius: '13%',
     width: '380px',
     textAlign: 'center',
     color: '#999fc4',
     cursor: 'pointer',
+    
     
     
   },
@@ -97,6 +103,13 @@ const styleRecipe = StyleSheet.create({
     color: '#999fc4',
     cursor: 'pointer',
   },
+
+  image: {
+    borderRadius: '5%',
+    ':hover':{
+      width: '101%'
+    }
+  }
 });
 
 export default ShowRecipe;

@@ -69,7 +69,11 @@ function AuthComponent() {
     element: {
       paddingLeft: '7px',
       cursor: 'pointer',
-      color: 'rgb(144,132,122)'
+      color: 'rgb(144,132,122)',
+      transition: '0.5s',
+      ':hover':{
+        color: 'rgba(14,132,122,0.7)',
+      }
     },
     welcome: {
       color: 'rgb(144,132,122)',

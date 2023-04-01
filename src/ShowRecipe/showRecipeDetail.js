@@ -79,7 +79,7 @@ function ShowRecipeDetail(props) {
 
 const styleStatics = StyleSheet.create({
   h3: {
-    border: '10px ridge rgba(41, 74, 48,0.2)',
+    border: '10px none rgba(41, 74, 48,0.2)',
     borderRadius: '13%',
     width: '200px',
     textAlign: 'center',
@@ -95,10 +95,16 @@ const styleStatics = StyleSheet.create({
   },
 
    button: {
-      backgroundColor: 'rgb(41, 74, 48,0.6)',
+      marginBottom: '15px',
+      background: 'rgba(125,123,65,0.6)',
       width: '150px',
       cursor: 'pointer',
-      marginLeft: '180px'
+      marginLeft: '180px',
+      borderColor: 'rgba(155,123,65,0.3)',
+      color: 'rgba(238, 245, 181,0.8)',
+      ':hover': {
+        background: 'rgba(155,123,65,0.3)',
+      }
   }
 })
 
@@ -114,6 +120,7 @@ const styleRecipe = StyleSheet.create({
       flexDirection: 'column',
       flexFlow: 'column-reverse wrap',
       alignItems: 'center',
+      width: '70%',
   }
       
     
@@ -123,9 +130,9 @@ const styleRecipe = StyleSheet.create({
     flexDirection: 'column',
     margin: '50px 0 10px 0',
     padding: '5px',
-    border: '10px ridge rgba(41, 74, 48,0.2)',
+    border: '10px none rgba(41, 74, 48,0.2)',
     borderRadius: '13%',
-    width: '300px',
+    width: '30%',
     textAlign: 'center',
     color: '#999fc4',
     '@media (max-width: 800px)':{
@@ -140,7 +147,7 @@ const styleRecipe = StyleSheet.create({
       paddingRight: '300px',
       '@media (max-width: 800px)':{
         display: 'flex',
-      flexDirection: 'column',
+        flexDirection: 'column',
         width: '70%',
         paddingLeft: '0',
         paddingRight: '0'
@@ -151,6 +158,9 @@ const styleRecipe = StyleSheet.create({
       display: 'flex',
       flexDirection: 'column',
       paddingBottom: '60px',
+      '@media (max-width: 800px)': {
+        width: '100%'
+      }
   },
 
   recipeList: {

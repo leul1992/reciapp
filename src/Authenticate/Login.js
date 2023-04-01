@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { formField } from '../styles/AuthStyle';
 import { css } from 'aphrodite';
-import PropTypes from 'prop-types';
-import { propsWithKeysAndRef } from '@cfaester/enzyme-adapter-react-18/dist/enzyme-adapter-utils';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 
@@ -34,12 +33,16 @@ function Login({onSubmit, error}) {
                 setFormData({ ...formData, enableSubmit: false});
             }
         }
+        // eslint-disable-next-line
     }, [formData.username, formData.password, formData.enableSubmit]);
 
     return (
         <React.Fragment>
-            <form onSubmit={handleLoginSubmit}
-            className={css(formField.form)}>
+            <form
+            autoComplete='off'
+            onSubmit={handleLoginSubmit}
+            className={css(formField.form)}
+            >
             <p className={css(formField.para)}>LogIn Page</p>
             {error && <p>{error}</p>}
                 <label htmlFor='username' className={css(formField.label)}>UserName
@@ -49,28 +52,30 @@ function Login({onSubmit, error}) {
                 id='username' 
                 name='username' 
                 value={formData.username} 
-                onChange={handleChange} 
+                onChange={handleChange}
                 className={css(formField.input)}
                 ></input>
                 <label htmlFor='password' className={css(formField.label)}>PassWord
                 </label>
-                <input
-                id='password' 
-                name='password' 
-                type={formData.showPassword ? 'text' : 'password'} 
-                value={formData.password} 
-                onChange={handleChange} 
-                className={css(formField.input)}
-                ></input>
-                <p
-                onClick={handleTogglePasswordVisibility}
-                className={css(formData.showPassword ? formField.greenish : formField.blueish)}
-                >
-                    {formData.showPassword ? 'Hide' : 'Show'}
-                </p>
+                <div className={css(formField.inputshow)}>
+                    <input
+                    id='password'
+                    name='password'
+                    type={formData.showPassword ? 'text' : 'password'}
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={css(formField.input)}
+                    ></input>
+                    <p
+                    onClick={handleTogglePasswordVisibility}
+                    className={css(formField.show, formData.showPassword && formField.hide)}
+                    >
+                        {formData.showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </p>
+                </div>
                 <input
                 type='submit'
-                value='logIn'
+                value='LogIn'
                 disabled={!formData.enableSubmit}
                 className={css(formField.login)}
                 ></input>

@@ -32,7 +32,9 @@ function Signup({onSubmit, error}) {
 
     return(
         <>
-        <form onSubmit={handleSignupSubmit} className={css(formField.form)}>
+        <form
+        autoComplete="off"
+        onSubmit={handleSignupSubmit} className={css(formField.form)}>
         <p className={css(formField.para)}>SingUp Page</p>
         {error && <p>{error}</p>}
             <label htmlFor="username" className={css(formField.label)}>UserName

@@ -64,20 +64,20 @@ class Preference extends React.Component {
     return (
       <div className={css(stylePreference.preferenceCard)}>
         <div className={css(stylePreference.foodCheckBox)}>
-          <h3>foodType</h3>
+          <h3 className={css(stylePreference.title)}>Food Type</h3>
           {type.map(foodtype => (
             this.renderType(type.indexOf(foodtype))
           ))}
         </div>
         
         <div className={css(stylePreference.foodCheckBox)}>
-          <h3>Food Diet</h3>
+          <h3 className={css(stylePreference.title)}>Food Diet</h3>
           {diet.map(foodDiet =>(
             this.renderDiet(diet.indexOf(foodDiet))
           ))}
         </div>
         <div className={css(stylePreference.foodCheckBox)}>
-          <h3>Food Intolerance</h3>
+          <h3 className={css(stylePreference.title)}>Food Intolerance</h3>
           {intolerance.map(foodintolerance => (
             this.renderIntolerance(intolerance.indexOf(foodintolerance))
           ))}
@@ -93,6 +93,7 @@ class Preference extends React.Component {
           onChange={(event) => this.props.onChange( event.target.value)}
           >
           </input>
+          <Show /> 
         </div>
       </div>
     )
@@ -134,7 +135,7 @@ class Preference extends React.Component {
         />
         
       </div>
-      <Show /> 
+      
       </>
     );
   }
@@ -150,15 +151,24 @@ class Preference extends React.Component {
     foodCheckBox: {
       display: 'flex',
       flexDirection: 'column',
+      ':checked': {
+        backgroundColor: 'yellow'
+      }
     },
 
     checkbox: {
 
       display: 'none',
+      ':checked + container':{
+        
+          color: 'red'
+        
+      }
     },
 
-    'checkbox:checked + container':{
-      backgroundColor: 'green'
+    'container + checkbox:checked': {
+      color: 'red',
+      backgroundColor: 'red',
     },
   
 
@@ -172,13 +182,21 @@ class Preference extends React.Component {
     width: '120px',
     borderRadius: '7px',
     backgroundColor: 'rgba(165, 193, 201,0.1)',
-    cursor: 'default'
+    cursor: 'default',
+    'checkbox:checked':{
+      color: 'red',
+      background: 'red'
+    }
     
     
   },
 
   label: {
     color: 'rgba(191, 187, 237)'
+  },
+
+  title: {
+    textAlign: 'center',
   }
   });
 
