@@ -6,6 +6,7 @@ import SelectPreference from '../preferences/preferences';
 import { useSelector, useDispatch } from 'react-redux';
 import useHelper from './showOrHideDetail';
 import ShowFavourites from '../favourites/showFavourites';
+import { styleRecipe } from '../styles/recipeStyle';
 
 function ShowRecipe() {
   const [recipes, setRecipes] = useState([]);
@@ -38,7 +39,7 @@ console.log(preferneces);
 
   return (
     <div>
-      <ShowFavourites />
+      {/* <ShowFavourites /> */}
       {details.showDetail ? (
         <ShowRecipeDetail
         id={visibleSelected}
@@ -72,44 +73,6 @@ console.log(preferneces);
   );
 }
 
-const styleRecipe = StyleSheet.create({
-  allRecipes: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: '15px'
-    
-  },
-  
-  recipe: {
-    margin: '50px 0 10px 0',
-    padding: '10px',
-    border: '10px none rgba(41, 74, 48,0.2)',
-    borderRadius: '13%',
-    width: '380px',
-    textAlign: 'center',
-    color: '#999fc4',
-    cursor: 'pointer',
-    
-    
-    
-  },
-  h3: {
-    border: '10px ridge rgba(41, 74, 48,0.2)',
-    borderRadius: '13%',
-    width: '180px',
-    textAlign: 'center',
-    color: '#999fc4',
-    cursor: 'pointer',
-  },
 
-  image: {
-    borderRadius: '5%',
-    ':hover':{
-      width: '101%'
-    }
-  }
-});
 
 export default ShowRecipe;

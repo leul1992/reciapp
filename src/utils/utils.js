@@ -1,7 +1,5 @@
 import axios from "axios";
-import { API_KEY } from "./config";
-import { ALTERNATIVE_KEY } from "./config";
-
+import { API_KEY, ALTERNATIVE_KEY, API_ALTERNATIVE } from "./config";
 
 
 const getEndpoint = (id) => {

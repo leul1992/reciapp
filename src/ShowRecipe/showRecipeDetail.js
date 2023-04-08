@@ -7,6 +7,7 @@ import ShowFavourites from "../favourites/showFavourites";
 import useAuth from "../Authenticate/authenticate";
 import useHelper from "./showOrHideDetail";
 import ShowRecipe from "./showrecipe";
+import { styleDetailRecipe, styleStatics } from "../styles/recipeStyle";
 
 
 function ShowRecipeDetail(props) {
@@ -22,7 +23,7 @@ function ShowRecipeDetail(props) {
   }, [props.id]);
 
   const handleSaveFavourite = ({onSubmit, error}) => {
-    saveToFavourites(authentication.user.id, props.id);
+    saveToFavourites(authentication.user.id, props.id, recipeDetails.title, recipeDetails.image);
   }
 
   const handleShowDetail = () => {
@@ -46,13 +47,13 @@ function ShowRecipeDetail(props) {
       <div
       onClick={handleShowDetail}
       >Back</div>
-        <div className={css(styleRecipe.whole)}>
-          <div key={recipeDetails.id} className={css(styleRecipe.allRecipes)}>
-            <div className={css(styleRecipe.recipe)}>
+        <div className={css(styleDetailRecipe.whole)}>
+          <div key={recipeDetails.id} className={css(styleDetailRecipe.allRecipes)}>
+            <div className={css(styleDetailRecipe.recipe)}>
               <img src={recipeDetails.image} alt={recipeDetails.title} />
               <h2>{recipeDetails.title}</h2>
             </div>
-            <div className={css(styleRecipe.detail)}>
+            <div className={css(styleDetailRecipe.detail)}>
           <h3 className={css(styleStatics.h3, styleStatics.decription)}>Description Of The Food</h3>
               <p
                 dangerouslySetInnerHTML={{ __html: recipeDetails.summary }}
@@ -65,7 +66,7 @@ function ShowRecipeDetail(props) {
           >Save To Favourites</button>
           <h3 className={css(styleStatics.h3, styleStatics.followRecipe)}>Follow The Recipe</h3>
       
-          <div className={css(styleRecipe.recipeList)}>
+          <div className={css(styleDetailRecipe.recipeList)}>
             {ingredients}
           </div>
         </div>
@@ -77,104 +78,6 @@ function ShowRecipeDetail(props) {
 
 
 
-const styleStatics = StyleSheet.create({
-  h3: {
-    border: '10px none rgba(41, 74, 48,0.2)',
-    borderRadius: '13%',
-    width: '200px',
-    textAlign: 'center',
-    color: '#999fc4',
-  },
 
-  decription: {
-    margin: '0 0 0 20%',
-  },
-
-  followRecipe: {
-    margin: '0 0 0 30%',
-  },
-
-   button: {
-      marginBottom: '15px',
-      background: 'rgba(125,123,65,0.6)',
-      width: '150px',
-      cursor: 'pointer',
-      marginLeft: '180px',
-      borderColor: 'rgba(155,123,65,0.3)',
-      color: 'rgba(238, 245, 181,0.8)',
-      ':hover': {
-        background: 'rgba(155,123,65,0.3)',
-      }
-  }
-})
-
-const styleRecipe = StyleSheet.create({
-  allRecipes: {
-    display: 'flex',
-    /* justifyContent: 'space-between', */
-    alignItems: 'center',
-    marginBottom: '10px',
-    paddingLeft: '100px',
-    '@media (max-width: 800px)': {
-      display: 'flex',
-      flexDirection: 'column',
-      flexFlow: 'column-reverse wrap',
-      alignItems: 'center',
-      width: '70%',
-  }
-      
-    
-  },
-  recipe: {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '50px 0 10px 0',
-    padding: '5px',
-    border: '10px none rgba(41, 74, 48,0.2)',
-    borderRadius: '13%',
-    width: '30%',
-    textAlign: 'center',
-    color: '#999fc4',
-    '@media (max-width: 800px)':{
-      width: '70%',
-    }
-  },
-
-  
-
-  detail: {
-      paddingLeft: '20px',
-      paddingRight: '300px',
-      '@media (max-width: 800px)':{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '70%',
-        paddingLeft: '0',
-        paddingRight: '0'
-      }
-  },
-
-  whole: {
-      display: 'flex',
-      flexDirection: 'column',
-      paddingBottom: '60px',
-      '@media (max-width: 800px)': {
-        width: '100%'
-      }
-  },
-
-  recipeList: {
-      display: 'flex',
-      flexDirection: 'column',
-      paddingLeft: '25%',
-      width: '40%',
-      '@media (max-width: 800px)':{
-        width: '70%',
-      }
-  }
-
- 
-});
-  
 
 export default ShowRecipeDetail;

@@ -10,7 +10,7 @@ app.use(express.json());
 // Create users table if it doesn't exist
 db.serialize(() => {
     db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, password TEXT)");
-    db.run("CREATE TABLE IF NOT EXISTS favourites (id INTEGER PRIMARY KEY AUTOINCREMENT, userid INTEGER, recipeid INTEGER)");
+    db.run("CREATE TABLE IF NOT EXISTS favourites (id INTEGER PRIMARY KEY AUTOINCREMENT, userid INTEGER, recipeid INTEGER, recipename TEXT, recipeimage TEXT)");
 });
 
 // Login endpoint
@@ -86,19 +86,19 @@ app.post('/api/signup', (req, res) => {
 });
 
 app.post('/api/saveFavourites', (req, res) =>{
-    let { userId, recipeId } = req.body;
+    let { userId, recipeId, recipeName, recipeImage } = req.body;
     userId = parseInt(userId);
     recipeId = parseInt(recipeId);
     if (!userId || !recipeId){
         return res.json({success: false, error: 'Something Went Wrong'})
     }
 
-    db.get('SELECT recipeid FROM favourites WHERE userid = ?', userId, (err, row) => {
+    db.get('SELECT * FROM favourites WHERE userid = ?', userId, (err, row) => {
         if (err) {
           console.error(err.message);
           return res.json({ success: false, error: 'Database error' });
         } else if (!row) {
-          db.run('INSERT INTO favourites (userid, recipeid) VALUES(?,?)', [userId, recipeId], (err) => {
+          db.run('INSERT INTO favourites (userid, recipeid, recipename, recipeimage) VALUES(?,?,?,?)', [userId, recipeId, recipeName, recipeImage], (err) => {
             if (err) {
               console.error(err.message);
               return res.json({ success: false, error: 'Database error' });
@@ -106,10 +106,19 @@ app.post('/api/saveFavourites', (req, res) =>{
             return res.json({ success: true, favourites: { userId, recipeId } });
           });
         } else {
-          let myarr = String(row.recipeid).split(',');
-          if (myarr.includes(String(recipeId)) === false) {
-            myarr.push(recipeId);
-            db.run('UPDATE favourites SET recipeid = ? WHERE userid = ?', [myarr.join(','), userId], (err) => {
+          let idarr = String(row.recipeid).split(',');
+          let namearr = row.recipename.split('+');
+          let imagearr = row.recipeimage.split('+')
+          if (idarr.includes(String(recipeId)) === false) {
+            idarr.push(recipeId);
+            db.run('UPDATE favourites SET\
+            recipeid = ?,recipename=?,recipeimage=?\
+            WHERE userid = ?',
+            [idarr.join(','),
+            namearr.join('+'),
+            imagearr.join('+'),
+            userId],
+            (err) => {
               if (err) {
                 console.error(err.message);
                 return res.json({ success: false, error: 'Database error' });
@@ -134,7 +143,11 @@ app.get('/api/showfavourites', (req, res) => {
         } else if (!row) {
             return res.json({ success: false, error: 'No Saved Data'})
         } else {
-            return res.json({success:true, recipeid: row.recipeid});
+            return res.json({success:true, recipe: {
+                recipeid: row.recipeid,
+                recipename: row.recipename,
+                recipeimage: row.recipeimage
+            }});
         }
 });
 });

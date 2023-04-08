@@ -11,7 +11,6 @@ function App() {
   return (
     <React.Fragment>
       <Header />
-      {/* <PasswordInput /> */}
       <AuthComponent />
       <Footer/>
     </React.Fragment>
