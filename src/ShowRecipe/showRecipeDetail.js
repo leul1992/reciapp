@@ -8,6 +8,7 @@ import useAuth from "../Authenticate/authenticate";
 import useHelper from "./showOrHideDetail";
 import ShowRecipe from "./showrecipe";
 import { styleDetailRecipe, styleStatics } from "../styles/recipeStyle";
+import { FaArrowLeft, FaArrowAltCircleLeft } from 'react-icons/fa';
 
 
 function ShowRecipeDetail(props) {
@@ -44,9 +45,10 @@ function ShowRecipeDetail(props) {
   return (
     <>
     <div>
-      <div
+      <FaArrowAltCircleLeft
       onClick={handleShowDetail}
-      >Back</div>
+      className={css(styleStatics.arrow)}
+       size='23'/>
         <div className={css(styleDetailRecipe.whole)}>
           <div key={recipeDetails.id} className={css(styleDetailRecipe.allRecipes)}>
             <div className={css(styleDetailRecipe.recipe)}>

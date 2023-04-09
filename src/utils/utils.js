@@ -11,7 +11,6 @@ const getEndpoint = (id) => {
 };
 function getOptions(id) {
   let parsedId = id ? parseInt(id) : '';
-  console.log(typeof(parsedId));
   const url = getEndpoint(parsedId);
   const options = {};
   const temp = {};
@@ -32,7 +31,6 @@ function getOptions(id) {
     options[key] = temp[key];
   }
   
-  console.log(options);
   return options;
 };
 // fetchData from api
@@ -42,7 +40,6 @@ const fetchData = (id, foodType, foodDiet, foodintolerance, maxTime) => {
   let ft = '';
   let fd = '';
   let fi = '';
-  console.log(foodType);
   if (foodType) {
     ft = foodType.map(foods => foods + ',').join('');
     options.params['type'] = ft;
@@ -61,7 +58,6 @@ const fetchData = (id, foodType, foodDiet, foodintolerance, maxTime) => {
   if (maxTime){
     options.params['maxReadyTime'] = parseInt(maxTime);
   }
-  console.log(options);
   return new Promise((resolve, reject) => {
     axios.request(options)
       .then(response => {

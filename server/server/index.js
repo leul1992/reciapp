@@ -111,6 +111,8 @@ app.post('/api/saveFavourites', (req, res) =>{
           let imagearr = row.recipeimage.split('+')
           if (idarr.includes(String(recipeId)) === false) {
             idarr.push(recipeId);
+            namearr.push(recipeName);
+            imagearr.push(recipeImage);
             db.run('UPDATE favourites SET\
             recipeid = ?,recipename=?,recipeimage=?\
             WHERE userid = ?',

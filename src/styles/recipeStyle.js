@@ -67,6 +67,15 @@ const styleRecipe = StyleSheet.create({
         ':hover': {
           background: 'rgba(155,123,65,0.3)',
         }
+    },
+    arrow: {
+      color: 'rgba(28, 245, 181,0.8)',
+      cursor: 'pointer',
+      marginLeft: '20px',
+      ":hover": {
+        marginLeft: '17px',
+        color: 'rgba(8, 245, 181,0.5)'
+      }
     }
   })
   

@@ -16,7 +16,6 @@ function ShowRecipe() {
   const {details, showDetail, hideDetail} = useHelper();
   const dispatch = useDispatch();
 
-console.log(preferneces);
   useEffect(() => {
     fetchData('',preferneces.type,preferneces.diet,preferneces.intolerance,preferneces.maxTime).then(data => {
       setRecipes(data.results);
@@ -39,8 +38,8 @@ console.log(preferneces);
 
   return (
     <div>
-      {/* <ShowFavourites /> */}
-      {details.showDetail ? (
+      <ShowFavourites />
+      {/* {details.showDetail ? (
         <ShowRecipeDetail
         id={visibleSelected}
         />
@@ -68,7 +67,7 @@ console.log(preferneces);
           ))}
                 </div>
         </>
-      )}
+      )} */}
     </div>
   );
 }

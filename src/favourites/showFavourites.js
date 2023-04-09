@@ -24,10 +24,10 @@ const ShowFavourites = () => {
     const getData = async () => {
       const favourite = await getFavourites(authentication.user.id);
       console.log(favourite)
-      if (favourite && favourites.recipe){
+      if (favourite && favourite.recipe){
       const ids = favourite.recipe.recipeid.split(',');
-      const names = favourite.recipe.recipename.split(',');
-      const images = favourite.recipe.recipeimage.split(',');
+      const names = favourite.recipe.recipename.split('+');
+      const images = favourite.recipe.recipeimage.split('+');
       const favList = ids.map((id, index) => ({
         id,
         name: names[index],
@@ -40,7 +40,7 @@ const ShowFavourites = () => {
   }
     };
     getData();
-  }, [favourites.recipe, authentication.user.id]);
+  }, [authentication.user.id]);
 
   console.log(favourites['name'])
   return (
