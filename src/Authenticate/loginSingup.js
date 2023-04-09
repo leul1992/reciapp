@@ -2,8 +2,9 @@ import useAuth from "./authenticate";
 import Login from "./Login";
 import Signup from "./Signup";
 import { useState } from "react";
-import { StyleSheet, css } from "aphrodite";
+import { css } from "aphrodite";
 import ShowRecipe from "../ShowRecipe/showrecipe";
+import { styleLogSing } from "../styles/AuthStyle";
 // Usage in component
 function AuthComponent() {
     const { authentication, signup, login, logout } = useAuth();
@@ -32,8 +33,9 @@ function AuthComponent() {
             <div>
               <p
               className={css(styleLogSing.welcome, styleLogSing.alreadyhave)}>Welcome {authentication.user.username}!</p>
-              <div className={css(styleLogSing.logout)}>
+              <div className={css(styleLogSing.logoutContainer)}>
                 <button
+                className={css(styleLogSing.logout)}
                 onClick={handleLogout}
                 >Logout</button>
               </div>
@@ -60,30 +62,6 @@ function AuthComponent() {
   );
   }
 
-  const styleLogSing = StyleSheet.create({
-    alreadyhave: {
-      display: 'flex',
-      fontSize: '20px',
-      justifyContent: 'center'
-    },
-    element: {
-      paddingLeft: '7px',
-      cursor: 'pointer',
-      color: 'rgb(144,132,122)',
-      transition: '0.5s',
-      ':hover':{
-        color: 'rgba(14,132,122,0.7)',
-      }
-    },
-    welcome: {
-      color: 'rgb(144,132,122)',
-      cursor: 'default'
-    },
-    logout: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-    },
-    
-  })
+  
 
   export default AuthComponent;

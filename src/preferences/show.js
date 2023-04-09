@@ -5,7 +5,7 @@ const Show = () => {
     const preferences = useSelector(state => state.preferences);
   
     return (
-      <div className={css(styleShow.whole)}>
+      { ( preferences.diet || preferences.type || preferences.intolerance || preferences.maxTime) && <div className={css(styleShow.whole)}>
         {preferences.diet && <p>Preference Chosen:</p>}
         <ul>
           {preferences.type.map(type => (
@@ -20,7 +20,7 @@ const Show = () => {
           ))}
         </ul>
         <p>{preferences.maxTime}</p>
-      </div>
+      </div>}
     );
 }
 

@@ -23,7 +23,6 @@ const ShowFavourites = () => {
   useEffect(() => {
     const getData = async () => {
       const favourite = await getFavourites(authentication.user.id);
-      console.log(favourite)
       if (favourite && favourite.recipe){
       const ids = favourite.recipe.recipeid.split(',');
       const names = favourite.recipe.recipename.split('+');
@@ -42,25 +41,28 @@ const ShowFavourites = () => {
     getData();
   }, [authentication.user.id]);
 
-  console.log(favourites['name'])
+  const showDetails = (recipe) => {
+    
+  }
+
   return (
     <>
     <div className={css(styleFavourites.whole)}>
-    {favourites.id ? favourites.map((recipeDetails, index) => (
-    <div
-    key={recipeDetails}
-    className={css(styleFavourites.specificRecipe)}>
-      {<img
-      className={css(styleFavourites.photo)}
-      src={recipeDetails.image} alt={recipeDetails.title} />}
-      <h2>{recipeDetails.name[index]}</h2>
-    </div>
-    ))
-    : <>
-    <div>{favourites}</div>
-    </>
-}
-</div>
+        {favourites.length ? favourites.map((recipeDetails) => (
+          <div
+          onClick={showDetails(recipeDetails.id)}
+            key={recipeDetails.id}
+            className={css(styleFavourites.specificRecipe)}
+          >
+            <img
+              className={css(styleFavourites.photo)}
+              src={recipeDetails.image} 
+              alt={recipeDetails.name}
+            />
+            <h2>{recipeDetails.name}</h2>
+          </div>
+        )) : <div>{favourites['error']}</div>}
+      </div>
     </>
   );
 };

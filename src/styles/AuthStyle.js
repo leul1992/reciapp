@@ -45,16 +45,17 @@ const formField = StyleSheet.create({
     login : {
         textAlign: 'center',
         padding: '3px',
-        width: "79px",
-        background: 'rgba(67, 81, 99, 0.1)',
+        width: "52px",
+        background: 'rgba(6, 81, 99, 1)',
         borderRadius: '7px',
         margin: '5px',
-        color: '#d1f0e8',
+        color: '#91f0e8',
         cursor: 'pointer',
-        transition: '0.5s',
+        outline: 'none',
+        borderColor: 'rgba(110, 235, 168, 0.3)',
+        transition: '0.3s',
         ':hover': {
-            width: '85px',
-            fontSize: '14px'
+            width: '55px',
         }
     },
 
@@ -86,8 +87,50 @@ const formField = StyleSheet.create({
         background: 'rgba(152, 156, 109, 0.07)',
         borderRadius: '7px',
         padding: '3px',
-      }
+      },
+      
         
 });
 
-export {formField, coolFont};
+const styleLogSing = StyleSheet.create({
+    alreadyhave: {
+      display: 'flex',
+      fontSize: '20px',
+      justifyContent: 'center'
+    },
+    element: {
+      paddingLeft: '7px',
+      cursor: 'pointer',
+      color: 'rgb(144,132,122)',
+      transition: '0.5s',
+      ':hover':{
+        color: 'rgba(14,132,122,0.7)',
+      }
+    },
+    welcome: {
+      color: 'rgb(144,132,122)',
+      cursor: 'default'
+    },
+    logoutContainer: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+
+    logout : {
+        textAlign: 'center',
+        background: 'rgba(6, 81, 99, 0.5)',
+        borderRadius: '3px',
+        margin: '5px',
+        color: '#91f0e8',
+        cursor: 'pointer',
+        outline: 'none',
+        borderColor: 'borderColor: rgba(110, 235, 168, 0.3)',
+        transition: '0.3s',
+        ':hover': {
+            width: '55px',
+        }
+    },
+    
+  })
+
+export {formField, coolFont, styleLogSing};

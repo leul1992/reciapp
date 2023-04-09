@@ -132,8 +132,8 @@ app.post('/api/saveFavourites', (req, res) =>{
       });
       
 });
-app.get('/api/showfavourites', (req, res) => {
-    let {userId} = req.query;
+app.post('/api/showfavourites', (req, res) => {
+    let {userId} = req.body;
     userId = parseInt(userId);
     if (!userId){
         return res.json({success: false, error: 'Something Went Wrong'});

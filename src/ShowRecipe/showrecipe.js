@@ -38,8 +38,7 @@ function ShowRecipe() {
 
   return (
     <div>
-      <ShowFavourites />
-      {/* {details.showDetail ? (
+      {details.showDetail ? (
         <ShowRecipeDetail
         id={visibleSelected}
         />
@@ -67,7 +66,7 @@ function ShowRecipe() {
           ))}
                 </div>
         </>
-      )} */}
+      )}
     </div>
   );
 }
