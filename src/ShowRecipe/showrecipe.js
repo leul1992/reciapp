@@ -3,7 +3,7 @@ import fetchData from '../utils/utils';
 import { StyleSheet, css } from 'aphrodite';
 import ShowRecipeDetail from './showRecipeDetail';
 import SelectPreference from '../preferences/preferences';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useHelper from './showOrHideDetail';
 import ShowFavourites from '../favourites/showFavourites';
 import { styleRecipe } from '../styles/recipeStyle';
@@ -14,7 +14,6 @@ function ShowRecipe() {
   const preferneces = useSelector(state => state.preferences);
   const [showPrefer, setShowPrefer] = useState(false);
   const {details, showDetail, hideDetail} = useHelper();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchData('',preferneces.type,preferneces.diet,preferneces.intolerance,preferneces.maxTime).then(data => {
@@ -38,7 +37,9 @@ function ShowRecipe() {
 
   return (
     <div>
-      {details.showDetail ? (
+      {details.ShowFavourites ?
+      <ShowFavourites /> :
+      details.showDetail ? (
         <ShowRecipeDetail
         id={visibleSelected}
         />

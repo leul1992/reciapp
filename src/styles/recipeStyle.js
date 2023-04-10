@@ -23,12 +23,14 @@ const styleRecipe = StyleSheet.create({
       
     },
     h3: {
-      border: '10px ridge rgba(41, 74, 48,0.2)',
-      borderRadius: '13%',
       width: '180px',
       textAlign: 'center',
-      color: '#999fc4',
+      color: 'rgba(169, 255, 196,0.7)',
       cursor: 'pointer',
+      transition: '0.3s',
+      ":hover": {
+        color: 'rgba(190, 255, 196,0.4)'
+      }
     },
   
     image: {

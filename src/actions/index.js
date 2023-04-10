@@ -11,8 +11,9 @@ export const SIGNUP_ERROR= 'SIGNUP_ERROR';
 export const LOGOUT= 'LOGOUT';
 export const SHOWDETAIL = 'SHOWDETAIL';
 export const HIDEDETAIL = 'HIDEDETAIL';
-/* export const ADD_FAVOURITES = 'ADD_FAVOURITES';
- */
+export const SHOW_FAVOURITES = 'SHOW_FAVOURITES';
+export const HIDE_FAVOURITES = 'HIDE_FAVOURITES';
+
 
 export function addPreference(preferenceType, preferenceValue) {
   return {
@@ -87,10 +88,15 @@ export function hideDetails() {
   }
 }
 
-/* export function addFavourites(userId, recipeId) {
+export function showFavourites(userId){
   return {
-    type: ADD_FAVOURITES,
-    userId,
-    recipeId,
+    type: SHOW_FAVOURITES,
+    payload: userId,
   }
-} */
+}
+
+export function hideFavourites(){
+  return {
+    type: HIDE_FAVOURITES,
+  }
+}
