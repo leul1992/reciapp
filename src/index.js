@@ -4,6 +4,7 @@ import App from './App/App';
 import { configureStore } from '@reduxjs/toolkit';
 import allReducers from './reducers';
 import { Provider } from 'react-redux';
+
 const store = configureStore({
   reducer: allReducers,
 });

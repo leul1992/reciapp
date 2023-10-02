@@ -2,9 +2,7 @@ import useAuth from "./authenticate";
 import Login from "./Login";
 import Signup from "./Signup";
 import { useState } from "react";
-import { css } from "aphrodite";
 import ShowRecipe from "../ShowRecipe/showrecipe";
-import { styleLogSing } from "../styles/AuthStyle";
 // Usage in component
 function AuthComponent() {
     const { authentication, signup, login, logout } = useAuth();
@@ -18,44 +16,36 @@ function AuthComponent() {
       login(formData);
     };
   
-    const handleLogout = () => {
-      logout();
-    };
+    
 
-    const handleAlreadyHaveAcc = () => {
-      setAlreadyHaveAcc(!alreadyHaveAcc);
+    const toSignUp = () => {
+      setAlreadyHaveAcc(false);
+    }
+    const toLogIn = () => {
+      setAlreadyHaveAcc(true);
     }
   
     return (
       <div>
         {authentication.isLoggedIn ? (
           <div>
-            <div>
-              <p
-              className={css(styleLogSing.welcome, styleLogSing.alreadyhave)}>Welcome {authentication.user.username}!</p>
-              <div className={css(styleLogSing.logoutContainer)}>
-                <button
-                className={css(styleLogSing.logout)}
-                onClick={handleLogout}
-                >Logout</button>
-              </div>
-            </div>
+            
             <ShowRecipe />
       </div>
     ) : (
       <div>
         {alreadyHaveAcc ?
-        <Login onSubmit={handleLogin} error={authentication.error} />
-        : <Signup onSubmit={handleSignup} error={authentication.error} />
-}
-        <div
-        className={css(styleLogSing.alreadyhave)}>
-          <p>Go To </p>
-          <p
-          className={css(styleLogSing.element)}
-        onClick={handleAlreadyHaveAcc}
-        >{alreadyHaveAcc ? 'Signup':'Login' }</p>
-        </div>
+        <Login
+        toSignUp={toSignUp}
+        toLogIn={toLogIn}
+        alreadyHaveAcc={alreadyHaveAcc}
+        onSubmit={handleLogin} error={authentication.error} />
+        : <Signup
+        toSignUp={toSignUp}
+        toLogIn={toLogIn}
+        alreadyHaveAcc={alreadyHaveAcc}
+        onSubmit={handleSignup} error={authentication.error} />
+}    
       </div>
     )}
   </div>

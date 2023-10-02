@@ -1,6 +1,6 @@
 import { HIDEDETAIL, SHOWDETAIL, SHOW_FAVOURITES, HIDE_FAVOURITES } from "../actions"
 const initialState = {
-    showDetail: false,
+    showDetail: '',
     showFavourite: false,
 }
 
@@ -9,12 +9,12 @@ export const helperReducer = (state=initialState, action) => {
         case HIDEDETAIL:
             return {
                 ...state,
-                showDetail: false,
+                showDetail: '',
             };
         case SHOWDETAIL:
             return {
                 ...state,
-                showDetail: true,
+                showDetail: action.payload,
 
             };
         case SHOW_FAVOURITES:

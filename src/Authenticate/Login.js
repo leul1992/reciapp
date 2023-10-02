@@ -1,15 +1,14 @@
 /* import './Auth.css'; */
-import React, { useState, useEffect } from 'react';
-import { formField } from '../styles/AuthStyle';
-import { css } from 'aphrodite';
+import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { validPassword, validUsername } from '../utils/validation';
 
 
 
-
-function Login({onSubmit, error}) {
+function Login({onSubmit, error, alreadyHaveAcc, toSignUp, toLogIn}) {
     
-    const [formData, setFormData] = useState({ username: '', password: '', enableSubmit: false, showPassword: false });
+    const [formData, setFormData] = useState({ username: '', password: '', showPassword: false });
+    const [loginError, setLoginError] = useState('');
     
     const handleTogglePasswordVisibility = () => {
         setFormData({ ...formData, showPassword: !formData.showPassword});
@@ -21,66 +20,73 @@ function Login({onSubmit, error}) {
 
     const handleLoginSubmit = (e) => {
         e.preventDefault();
+        if (!validUsername.test(formData.username) && formData.username){
+            error = ''
+            setLoginError('UserName length >5 Letter, Number, -, _');
+            return;
+        }
+        else if (!validPassword.test(formData.password) && formData.password){
+            error = ''
+            setLoginError('Password length >6 Letter(begin UpperCase), Number, Special characters');
+            return;
+        }
+        setLoginError('')
         onSubmit(formData);
     };
 
-    useEffect(() => {
-        if (formData.username !== '' && formData.password !== '') {
-            setFormData({ ...formData, enableSubmit: true});
-        }
-        else {
-            if (formData.enableSubmit !== false) {
-                setFormData({ ...formData, enableSubmit: false});
-            }
-        }
-        // eslint-disable-next-line
-    }, [formData.username, formData.password, formData.enableSubmit]);
+    
 
     return (
-        <React.Fragment>
+        <div className="flex justify-center px-10 sm:px-0 items-center h-screen">
             <form
             autoComplete='off'
             onSubmit={handleLoginSubmit}
-            className={css(formField.form)}
+            className="flex w-full sm:w-96 gap-8 py-10 items-center flex-col border rounded-br-xl rounded-tl-xl drop-shadow-md outline outline-2 outline-green-300"
             >
-            <p className={css(formField.para)}>LogIn Page</p>
-            {error && <p>{error}</p>}
-                <label htmlFor='username' className={css(formField.label)}>UserName
-                </label>
+          <div className="flex cursor-pointer bg-stone-100 rounded-xl w-32">
+              <span className={`px-1 flex justify-center w-1/2 outline-none rounded-xl ${alreadyHaveAcc ? "bg-[#2de336] text-white":"text-black"}`}
+                onClick={toLogIn}
+                      >Login</span>
+                      <span
+                      onClick={toSignUp}
+                      className={`${!alreadyHaveAcc ? "bg-[#2de336] text-white":"text-black"} flex rounded-xl justify-center w-1/2`}>
+                        Signup</span>
+          </div>
+       
+            {(!loginError && error) && <p className="text-red-400">{error}</p>}
+            {loginError && <div className="bg-red-400">{loginError}</div>}
                 <input
                 type='text' 
-                id='username' 
+                id='username'
                 name='username' 
-                value={formData.username} 
+                placeholder='Username'
+                autoComplete={false}
                 onChange={handleChange}
-                className={css(formField.input)}
+                className="w-3/4 text-sm outline-none bg-white border-b border-b-stone-400"
                 ></input>
-                <label htmlFor='password' className={css(formField.label)}>PassWord
-                </label>
-                <div className={css(formField.inputshow)}>
+                <div className="flex w-3/4 bg-white border-b border-stone-400">
                     <input
                     id='password'
                     name='password'
+                    placeholder='Password'
                     type={formData.showPassword ? 'text' : 'password'}
-                    value={formData.password}
                     onChange={handleChange}
-                    className={css(formField.input)}
+                    className="w-11/12 text-sm outline-none"
                     ></input>
-                    <p
+                    <span
                     onClick={handleTogglePasswordVisibility}
-                    className={css(formField.show, formData.showPassword && formField.hide)}
+                    className="text-stone-400 cursor-pointer"
                     >
                         {formData.showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </p>
+                    </span>
                 </div>
                 <input
                 type='submit'
                 value='LogIn'
-                disabled={!formData.enableSubmit}
-                className={css(formField.login)}
+                className="bg-[#2de336] mb-4 text-white px-2 rounded-xl cursor-pointer hover:bg-green-600"
                 ></input>
             </form>
-        </React.Fragment>
+        </div>
     );
 }
 

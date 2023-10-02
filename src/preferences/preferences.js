@@ -1,34 +1,40 @@
-import React, {useReducer} from "react";
-import { StyleSheet, css } from "aphrodite";
+import React from "react";
 import { type, diet, intolerance } from "./preferenceData";
-import { preferencesReducer } from "../reducers/preferenceReducer";
-import Show from "./show";
 import { addPreference, removePreference, setMaxTime, removeMaxTime } from "../actions";
 import { useSelector, useDispatch } from "react-redux";
 
 function CheckBox(props) {
-  const {name, value, checked, onChange } = props;
-    return (
-      <>
-      <div className={css(stylePreference.container)}>
-        <label className={css(stylePreference.label)}>
-        <input
-          type="checkbox"
-          name={name}
-          value={value}
-          checked={checked}
-          onChange={onChange}
-          className={css(stylePreference.checkbox)}
-        />
-        {value}
-            </label>
+  const { name, value, checked, onChange } = props;
+  return (
+    <div
+      className={`my-1 text-center py-2 ${checked ? "bg-green-500 hover:bg-green-400" : "bg-[#25254e] hover:bg-[#5d5d88]"} text-white cursor-pointer`}
+      onClick={onChange} // Make the outer div clickable
+    >
+      {value}
+    </div>
+  );
+}
 
-      </div>
-      </>
-    );
-  }
 
 class Preference extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      toggle: null,
+    }
+  }
+
+  handleClick = (index) => {
+    if (index !== this.state.toggle){
+    this.setState({
+      toggle: index,
+    })}
+    else {
+      this.setState({
+        toggle: null,
+      })
+    }
+  }
     renderType(i) {
       return(
         <CheckBox
@@ -62,38 +68,46 @@ class Preference extends React.Component {
 
   render() {
     return (
-      <div className={css(stylePreference.preferenceCard)}>
-        <div className={css(stylePreference.foodCheckBox)}>
-          <h3 className={css(stylePreference.title)}>Food Type</h3>
-          {type.map(foodtype => (
+      <div className="">
+        <div className="cursor-pointer">
+          <h3
+          onClick={() => this.handleClick(0)}
+          className=" font-semibold">Type</h3>
+          {this.state.toggle === 0 && type.map(foodtype => (
             this.renderType(type.indexOf(foodtype))
           ))}
         </div>
         
-        <div className={css(stylePreference.foodCheckBox)}>
-          <h3 className={css(stylePreference.title)}>Food Diet</h3>
-          {diet.map(foodDiet =>(
+        <div className="">
+          <h3
+          onClick={() => this.handleClick(1)}
+          className="cursor-pointer font-semibold">Diet</h3>
+          {this.state.toggle === 1 && diet.map(foodDiet =>(
             this.renderDiet(diet.indexOf(foodDiet))
           ))}
         </div>
-        <div className={css(stylePreference.foodCheckBox)}>
-          <h3 className={css(stylePreference.title)}>Food Intolerance</h3>
-          {intolerance.map(foodintolerance => (
+        <div className="cursor-pointer">
+          <h3
+          onClick={() => this.handleClick(2)}
+          className="font-semibold">Intolerance</h3>
+          {this.state.toggle === 2 && intolerance.map(foodintolerance => (
             this.renderIntolerance(intolerance.indexOf(foodintolerance))
           ))}
         </div>
-        <div className={css(stylePreference.foodCheckBox)}>
-          <h3>Max-Time (10-200) Min</h3>
+        <div className="cursor-pointer font-semibold">
+          <h3
+          onClick={() => {this.handleClick(3)}}
+          >Max-Time 10-200 Min</h3>
+          {this.state.toggle === 3 && 
           <input
           name="maxTime"
           type="number"
           min={10}
           max={200}
-          className={css(stylePreference.container)}
+          className="border-2 border-gray-600 w-full px-2 outline-none"
           onChange={(event) => this.props.onChange( event.target.value)}
           >
-          </input>
-          <Show /> 
+          </input>}
         </div>
       </div>
     )
@@ -139,66 +153,6 @@ class Preference extends React.Component {
       </>
     );
   }
-
-  const stylePreference = StyleSheet.create({
-    preferenceCard: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      color: 'rgba(167, 199, 145,0.9)'
-    },
-    
-    foodCheckBox: {
-      display: 'flex',
-      flexDirection: 'column',
-      ':checked': {
-        backgroundColor: 'yellow'
-      }
-    },
-
-    checkbox: {
-
-      display: 'none',
-      ':checked + container':{
-        
-          color: 'red'
-        
-      }
-    },
-
-    'container + checkbox:checked': {
-      color: 'red',
-      backgroundColor: 'red',
-    },
-  
-
-  container: {
-    ':hover':{
-    backgroundColor: 'rgba(99, 153, 117,0.3)'
-    },
-    border: '2px groove rgba(95, 130, 125,0.9)',
-    textAlign: 'center',
-    margin: '2px',
-    width: '120px',
-    borderRadius: '7px',
-    backgroundColor: 'rgba(165, 193, 201,0.1)',
-    cursor: 'default',
-    'checkbox:checked':{
-      color: 'red',
-      background: 'red'
-    }
-    
-    
-  },
-
-  label: {
-    color: 'rgba(191, 187, 237)'
-  },
-
-  title: {
-    textAlign: 'center',
-  }
-  });
 
   export default SelectPreference;
  

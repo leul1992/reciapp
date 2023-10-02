@@ -80,6 +80,7 @@ export function logoutUser() {
 export function showDetails(recipeId) {
   return {
     type: SHOWDETAIL,
+    payload: recipeId,
   }
 }
 export function hideDetails() {
@@ -88,10 +89,9 @@ export function hideDetails() {
   }
 }
 
-export function showFavourites(userId){
+export function showFavourites(){
   return {
     type: SHOW_FAVOURITES,
-    payload: userId,
   }
 }
 

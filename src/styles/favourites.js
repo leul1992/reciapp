@@ -3,7 +3,8 @@ const styleFavourites = StyleSheet.create({
     whole: {
         display: 'flex',
         flexDirection: 'column',
-        color: 'rgba(110, 235, 168,0.8)'
+        color: 'rgba(110, 235, 168,0.8)',
+        paddingBottom: '70px'
     },
 
     specificRecipe: {
@@ -22,6 +23,10 @@ const styleFavourites = StyleSheet.create({
         width: '100px',
         borderRadius: '4px',
         marginRight: '7px',
+    },
+
+    heading: {
+        textAlign: 'center',
     }
 })
 

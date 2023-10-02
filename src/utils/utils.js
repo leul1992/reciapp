@@ -1,12 +1,13 @@
 import axios from "axios";
+// eslint-disable-next-line no-unused-vars
 import { API_KEY, ALTERNATIVE_KEY, API_ALTERNATIVE } from "./config";
 
 
 const getEndpoint = (id) => {
   if (id) {
-    return `https://api.spoonacular.com/recipes/${id}/information?apiKey=${ALTERNATIVE_KEY}`;
+    return `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_ALTERNATIVE}`;
   } else {
-    return `https://api.spoonacular.com/recipes/complexSearch?apiKey=${ALTERNATIVE_KEY}`;
+    return `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_ALTERNATIVE}`;
   }
 };
 function getOptions(id) {

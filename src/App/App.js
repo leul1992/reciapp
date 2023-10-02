@@ -4,18 +4,21 @@ import React from 'react';
 import Footer from '../Footer/footer';
 import './App.css'
 import AuthComponent from '../Authenticate/loginSingup';
-import ShowFavourites from '../favourites/showFavourites';
-import SelectPreference from '../preferences/preferences';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from '../Authenticate/Login';
+import About_developer from '../about_developer';
+
 function App() {
 
   
   return (
-    <React.Fragment>
-      <Header />
-      
-      <AuthComponent />
-      <Footer/>
-    </React.Fragment>
+    <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<AuthComponent />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="about_developer" element={<About_developer />} />
+    </Routes>
+    </BrowserRouter>
   );
 }
 

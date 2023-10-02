@@ -74,6 +74,7 @@ const styleRecipe = StyleSheet.create({
       color: 'rgba(28, 245, 181,0.8)',
       cursor: 'pointer',
       marginLeft: '20px',
+      marginBottom: '20px',
       ":hover": {
         marginLeft: '17px',
         color: 'rgba(8, 245, 181,0.5)'

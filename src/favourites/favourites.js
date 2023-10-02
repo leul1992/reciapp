@@ -1,6 +1,6 @@
-const saveToFavourites = async (userId, recipeId, recipeName, recipeImage) => {
+export const saveToFavourites = async (userId, recipeId, recipeName, recipeImage) => {
     try {
-      const response = await fetch('/api/saveFavourites', {
+      await fetch('/api/saveFavourites', {
         method: 'POST',
         body: JSON.stringify({userId, recipeId, recipeName, recipeImage}),
         headers: { 'Content-Type': 'application/json' },
@@ -10,4 +10,15 @@ const saveToFavourites = async (userId, recipeId, recipeName, recipeImage) => {
     }
   };
 
-  export default saveToFavourites;
+export const deleteFromFavourites = async (userId, recipeId) => {
+  try{
+    await fetch('/api/deleteFromFavorites', {
+      method: 'POST',
+      body: JSON.stringify({userId, recipeId}),
+      headers:{ "content-type": "application/json"},
+    });
+
+  } catch(e){
+    console.error('can\'t delete');
+  }
+}

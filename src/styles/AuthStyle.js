@@ -89,6 +89,10 @@ const formField = StyleSheet.create({
         padding: '3px',
       },
       
+      error: {
+        color: 'rgba(245, 176, 182, 1)',
+        paddingBottom: '8px'
+      }
         
 });
 
