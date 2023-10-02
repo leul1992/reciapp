@@ -44,7 +44,7 @@ const ShowFavourites = () => {
     const getData = async () => {
       const favourite = await getFavourites(authentication.user.id);
       if (favourite && favourite.recipe){
-      const ids = favourite.recipe.recipeid.split(',');
+      const ids = favourite.recipe.recipeid.length > 1 ? favourite.recipe.recipeid.split(','):[favourite.recipe.recipeid];
       const names = favourite.recipe.recipename.split('+');
       const images = favourite.recipe.recipeimage.split('+');
       const favList = ids.map((id, index) => ({
@@ -55,7 +55,7 @@ const ShowFavourites = () => {
       setFavourites(favList);
   }
   else{
-    setFavourites(favourite['error'])
+    
   }
     };
     getData();
@@ -88,9 +88,9 @@ const ShowFavourites = () => {
       onClick={hideFavouriteHandler}
       className="self-start ml-4 text-green-500 hover:text-green-700 cursor-pointer"
       size='26'/>
-      {favourites.length && <h2 className="text-green-700 text-xl">Your Favourites</h2>}
+      {favourites.length > 0 && <h2 className="text-green-700 text-xl">Your Favourites</h2>}
         <div className="flex flex-col gap-1 border p-4 rounded-bl-xl rounded-tr-xl shadow-lg outline outline-1 outline-blue-300 w-full md:w-2/3">
-          {favourites.length ? favourites.map((recipeDetails) => (
+          {favourites.length > 0 ? favourites.map((recipeDetails) => (
             <div
             onClick={handleOpen}
             className="flex gap-2 items-end h-full">

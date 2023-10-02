@@ -1,36 +1,32 @@
-import { css } from "aphrodite";
-import { formField } from "../styles/AuthStyle";
 import React, { useState, useEffect } from "react";
-import { validEmail, validPassword, validUsername } from "../utils/validation";
+import {  validPassword, validUsername } from "../utils/validation";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 function Signup({onSubmit, error, toLogIn, toSignUp, alreadyHaveAcc}) {
     const [formData, setFormData] = useState({
-        username: '',email: '', password: '', repassword: '', enableSubmit: false, showPassword: [false,false]
+        username: '', password: '', repassword: '', enableSubmit: false, showPassword: [false,false]
     });
     const [signupError, setSignupError] = useState('')
 
     const handleTogglePasswordVisibility = (index) => {
         const updatedPassword = [...formData.showPassword];
         updatedPassword[index] = !updatedPassword[index];
-        setFormData({ ...formData, showPassword: updatedPassword});
+        setFormData({ ...formData, showPassword: updatedPassword });
     };
+    
     const handleSignupSubmit = (e) => {
         e.preventDefault();
         if (!validUsername.test(formData.username)){
             setSignupError('UserName length >5 Letter, Number, -, _');
             return;
         }
-        else if (!validEmail.test(formData.email)) {
-            setSignupError('Invalid Email');
-            return;
-        }
-        else if (!validPassword.test(formData.password)){
-            error = ''
+        
+        else if (!validPassword.test(formData.password)) {
             setSignupError('Password length >6 Letter(begin UpperCase), Number, Special characters');
             return;
         }
+        
         setSignupError('')
         onSubmit(formData);
     };
@@ -38,6 +34,7 @@ function Signup({onSubmit, error, toLogIn, toSignUp, alreadyHaveAcc}) {
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
+    
 
   
     useEffect(() => {
@@ -75,7 +72,7 @@ function Signup({onSubmit, error, toLogIn, toSignUp, alreadyHaveAcc}) {
                 id='username'
                 name="username"
                 placeholder='Username'
-                autocomplete={false}
+                autocomplete="off"
                 onChange={handleChange}
                 className="w-3/4 text-sm outline-none bg-white border-b border-b-stone-400"></input>
             <div className="flex w-3/4 bg-white border-b border-stone-400">
@@ -84,6 +81,7 @@ function Signup({onSubmit, error, toLogIn, toSignUp, alreadyHaveAcc}) {
                 name="password"
                 type={formData.showPassword[0] ? 'text' : 'password'}
                 placeholder='Password'
+                autoComplete="off"
                 onChange={handleChange}
                 className="w-11/12 text-sm outline-none"></input>
                 <span
@@ -98,6 +96,7 @@ function Signup({onSubmit, error, toLogIn, toSignUp, alreadyHaveAcc}) {
                 type={formData.showPassword[1] ? 'text' : 'password'}
                 id='repassword'
                 placeholder='ReEnter Password'
+                autoComplete="off"
                 name="repassword"
                 onChange={handleChange}
                 className="w-11/12 text-sm outline-none"></input>
@@ -109,10 +108,12 @@ function Signup({onSubmit, error, toLogIn, toSignUp, alreadyHaveAcc}) {
                     </span>
                 </div>
                 <input
-                type='submit'
-                value='SignUp'
-                disabled={!formData.enableSubmit}
-                className="bg-[#2de336] text-white px-1 rounded-lg my-4"></input>
+    type='submit'
+    value='SignUp'
+    disabled={!formData.enableSubmit}
+    className="bg-[#2de336] text-white px-1 rounded-lg my-4"
+/>
+
         </form>
         </div>
     );
