@@ -34,6 +34,7 @@ function useAuth() {
           headers: { 'Content-Type': 'application/json' },
         });
         const data = await response.json();
+        console.log(data)
         if (data.success) {
           dispatch(loginUser(data.user));
         } else {

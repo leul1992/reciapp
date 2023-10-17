@@ -3,7 +3,7 @@ import fetchData from "../utils/utils";
 import {saveToFavourites} from "../favourites/favourites";
 import useAuth from "../Authenticate/authenticate";
 import useHelper from "./showOrHide";
-import { FaArrowAltCircleLeft } from 'react-icons/fa';
+import { FaArrowAltCircleLeft, FaCheck } from 'react-icons/fa';
 import Header from "../Header/header";
 import {
   Card,
@@ -16,6 +16,7 @@ function ShowRecipeDetail(props) {
   const [checkedIngredients, setCheckedIngredients] = useState([]);
   const {authentication} = useAuth();
   const { hideDetail} = useHelper();
+  const [saveMessage, setSaveMessage] = useState([null, null]);
   useEffect(() => {
     fetchData(props.id).then(data => {
       setRecipeDetails(data);
@@ -24,8 +25,23 @@ function ShowRecipeDetail(props) {
     });
   }, [props.id]);
 
-  const handleSaveFavourite = ({onSubmit, error}) => {
-    saveToFavourites(authentication.user.id, props.id, recipeDetails.title, recipeDetails.image);
+  
+  const handleSaveFavourite = async () => {
+    try {
+      const response = await saveToFavourites(authentication.user.id, props.id, recipeDetails.title, recipeDetails.image);
+      if (response.success) {
+        setSaveMessage([response.success, 'Saved']);
+      }
+      else{
+        setSaveMessage([response.success, response.message]);
+      }
+      // Reset the saveMessage state after a time delay (e.g., 3 seconds)
+        setTimeout(() => {
+          setSaveMessage([null, null]);
+        }, 3000);
+    } catch(error) {
+      setSaveMessage([false, 'Didn\'t save'])
+    }
   }
 
   const handleShowDetail = () => {
@@ -82,7 +98,7 @@ function ShowRecipeDetail(props) {
             <img src={recipeDetails.image} className="w-36 h-24 translate-x-10 rounded-b-2xl" alt={recipeDetails.title} />
             <button
             onClick={handleSaveFavourite}
-            className="px-4 mr-3 self-end translate-x-20 text-white rounded-lg hover:bg-green-600 bg-[#2de336] font-medium">Save</button>
+            className="px-4 mr-3 self-end translate-x-20 text-white rounded-lg hover:bg-green-600 bg-[#2de336] font-medium">{saveMessage[0] === true ? <span className="flex items-center gap-2">Saved <FaCheck /></span>:<span>Save</span>}</button>
           </div>
           <span className="font-medium text-stone-500">{recipeDetails.title}</span>
         <div
@@ -92,11 +108,12 @@ function ShowRecipeDetail(props) {
           opacity: 0.3,
           backgroundColor: "rgb(0, 0, 255)"
         }}
-      />
+        />
       <div className="bg-blue-400 w-full z-10 -translate-y-[334px] opacity-20 md:w-96 h-36 rounded-b-2xl bg-cover bg-center" />
         </div>
     </div>
-    <div className="-translate-y-64 self-center space-y-4">
+    <div className="-translate-y-64 self-center flex flex-col space-y-4">
+        {!saveMessage[0] && <sapn className='self-center text-[#326ebd]'>{saveMessage[1]}</sapn>}
       <div className="flex justify-center gap-4">
         <span
         onClick={handleToggleTrue}

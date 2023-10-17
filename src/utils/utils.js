@@ -5,9 +5,9 @@ import { API_KEY, ALTERNATIVE_KEY, API_ALTERNATIVE } from "./config";
 
 const getEndpoint = (id) => {
   if (id) {
-    return `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_ALTERNATIVE}`;
+    return `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`;
   } else {
-    return `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_ALTERNATIVE}`;
+    return `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}`;
   }
 };
 function getOptions(id) {

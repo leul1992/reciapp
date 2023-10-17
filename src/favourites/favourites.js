@@ -1,10 +1,11 @@
 export const saveToFavourites = async (userId, recipeId, recipeName, recipeImage) => {
     try {
-      await fetch('/api/saveFavourites', {
+      const response = await fetch('/api/saveFavourites', {
         method: 'POST',
         body: JSON.stringify({userId, recipeId, recipeName, recipeImage}),
         headers: { 'Content-Type': 'application/json' },
       });
+      return response.json();
     } catch (error) {
       console.error('can\'t fetch');
     }
@@ -12,7 +13,7 @@ export const saveToFavourites = async (userId, recipeId, recipeName, recipeImage
 
 export const deleteFromFavourites = async (userId, recipeId) => {
   try{
-    await fetch('/api/deleteFromFavorites', {
+    await fetch('/api/deleteFromfavourites', {
       method: 'POST',
       body: JSON.stringify({userId, recipeId}),
       headers:{ "content-type": "application/json"},

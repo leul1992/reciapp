@@ -9,32 +9,42 @@ function Login({onSubmit, error, alreadyHaveAcc, toSignUp, toLogIn}) {
     
     const [formData, setFormData] = useState({ username: '', password: '', showPassword: false });
     const [loginError, setLoginError] = useState('');
-    
-    const handleTogglePasswordVisibility = () => {
-        setFormData({ ...formData, showPassword: !formData.showPassword});
-    };
+    const [loading, setLoading] = useState(false); // New state variable for loading status
 
-    const handleChange = (event) => {
-        setFormData({ ...formData, [event.target.name]: event.target.value });
-        };
+  const handleTogglePasswordVisibility = () => {
+    setFormData({ ...formData, showPassword: !formData.showPassword });
+  };
 
-    const handleLoginSubmit = (e) => {
-        e.preventDefault();
-        if (!validUsername.test(formData.username) && formData.username){
-            error = ''
-            setLoginError('UserName length >5 Letter, Number, -, _');
-            return;
-        }
-        else if (!validPassword.test(formData.password) && formData.password){
-            error = ''
-            setLoginError('Password length >6 Letter(begin UpperCase), Number, Special characters');
-            return;
-        }
-        setLoginError('')
-        onSubmit(formData);
-    };
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
 
-    
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+  
+    let newLoginError = '';
+  
+    if (!validUsername.test(formData.username) && formData.username) {
+      newLoginError = 'UserName length >5 Letter, Number, -, _';
+    } else if (!validPassword.test(formData.password) && formData.password) {
+      newLoginError = 'Password length >6 Letter(begin UpperCase), Number, Special characters';
+    }
+  
+    setLoginError(newLoginError);
+  
+    if (!newLoginError) {
+      try {
+        await onSubmit(formData); // Assuming `onSubmit` is an async function
+        // If the login request is successful, you may redirect or perform other actions
+      } catch (error) {
+        console.error('Error during login:', error);
+        setLoginError('Login failed'); // Handle the login failure
+      }
+    }
+  
+    setLoading(false); // Set loading back to false when the login process is complete
+  };
 
     return (
         <div className="flex justify-center px-10 sm:px-0 items-center h-screen">
@@ -81,13 +91,15 @@ function Login({onSubmit, error, alreadyHaveAcc, toSignUp, toLogIn}) {
                     </span>
                 </div>
                 <input
-                type='submit'
-                value='LogIn'
-                className="bg-[#2de336] mb-4 text-white px-2 rounded-xl cursor-pointer hover:bg-green-600"
-                ></input>
-            </form>
-        </div>
-    );
+          type="submit"
+          value={loading ? 'Loading...' : 'LogIn'} // Display loading text when loading is true
+          disabled={loading} // Disable the button when loading is true
+          className="bg-[#2de336] mb-4 text-white px-2 rounded-xl cursor-pointer hover:bg-green-600"
+        ></input>
+      </form>
+      {loading && <div>loading...</div>}
+    </div>
+  );
 }
 
 

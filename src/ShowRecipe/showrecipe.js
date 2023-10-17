@@ -33,11 +33,6 @@ function ShowRecipe() {
     showDetail(recipeid);
   }
 
-  
-  
-  
-  
-
   return (
     <>
       {details.showDetail ?
@@ -54,7 +49,7 @@ function ShowRecipe() {
         <Drawer open={open} onClose={closeDrawer} className="p-4 overflow-auto scrollbar-sm">
           <SelectPreference />
         </Drawer>
-            <div className="grid justify-self-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-3 items-center justify-center px-6 md:px-32 md:ml-10 py-4">
+            <div className="grid justify-self-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-3 items-center justify-center px-6 md:px-32 md:ml-10 py-4">
           {recipes.map(recipe => (
             <div
             key={recipe.id}

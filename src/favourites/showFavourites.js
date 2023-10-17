@@ -35,7 +35,8 @@ const getFavourites = async (userId) => {
 const ShowFavourites = () => {
   const {authentication}= useAuth();
   const [favourites, setFavourites] = useState([]);
-  const { showDetail, hideFavourite } = useHelper();
+  const [isReady, setIsReady] = useState(false);
+  const { showDetail,showFavourite, hideFavourite } = useHelper();
   const [open, setOpen] = useState(false);
  
   const handleOpen = () => setOpen(!open);
@@ -44,7 +45,7 @@ const ShowFavourites = () => {
     const getData = async () => {
       const favourite = await getFavourites(authentication.user.id);
       if (favourite && favourite.recipe){
-      const ids = favourite.recipe.recipeid.length > 1 ? favourite.recipe.recipeid.split(','):[favourite.recipe.recipeid];
+        if (favourite.recipe.recipeid && favourite.recipe.recipeid.length > 0) {      const ids = favourite.recipe.recipeid.length > 1 ? favourite.recipe.recipeid.split(','):[favourite.recipe.recipeid];
       const names = favourite.recipe.recipename.split('+');
       const images = favourite.recipe.recipeimage.split('+');
       const favList = ids.map((id, index) => ({
@@ -53,6 +54,8 @@ const ShowFavourites = () => {
         image: images[index]
       }))
       setFavourites(favList);
+      setIsReady(true);
+    }
   }
   else{
     
@@ -67,8 +70,9 @@ const ShowFavourites = () => {
   
   const handleShowDetail = (recipeid) => {
     showDetail(recipeid);
+    showFavourite();
   }
-  const handleDeleteFromFavorites = async( recipeid ) => {
+  const handleDeleteFromfavourites = async( recipeid ) => {
     try {
       await deleteFromFavourites(authentication.user.id, recipeid);
 
@@ -88,9 +92,12 @@ const ShowFavourites = () => {
       onClick={hideFavouriteHandler}
       className="self-start ml-4 text-green-500 hover:text-green-700 cursor-pointer"
       size='26'/>
-      {favourites.length > 0 && <h2 className="text-green-700 text-xl">Your Favourites</h2>}
+      {favourites.length > 0 ?
+      <>
+      <h2 className="text-green-700 text-xl">Your Favourites</h2>
         <div className="flex flex-col gap-1 border p-4 rounded-bl-xl rounded-tr-xl shadow-lg outline outline-1 outline-blue-300 w-full md:w-2/3">
-          {favourites.length > 0 ? favourites.map((recipeDetails) => (
+          {
+          favourites.length > 0 ? favourites.map((recipeDetails) => (
             <div
             onClick={handleOpen}
             className="flex gap-2 items-end h-full">
@@ -115,7 +122,7 @@ const ShowFavourites = () => {
                   <Button
                   variant="text"
                   color="red"
-                  onClick={()=>{handleDeleteFromFavorites(recipeDetails.id)}}
+                  onClick={()=>{handleDeleteFromfavourites(recipeDetails.id)}}
                   >
                     <sapn>Yes</sapn>
                   </Button>
@@ -131,7 +138,7 @@ const ShowFavourites = () => {
             </div>
           )): <div>{favourites['error']}</div>}
         </div>
-        
+       </>:<div className="text-red-500">No Record</div>} 
       </div>
     </>
   );
