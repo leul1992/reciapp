@@ -21,7 +21,7 @@ function ShowRecipeDetail(props) {
     fetchData(props.id).then(data => {
       setRecipeDetails(data);
     }).catch(error => {
-      console.log(error);
+      console.log('error showing recipe');
     });
   }, [props.id]);
 

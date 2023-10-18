@@ -25,7 +25,7 @@ function ShowRecipe() {
     fetchData('',preferneces.type,preferneces.diet,preferneces.intolerance,preferneces.maxTime).then(data => {
       setRecipes(data.results);
     }).catch(error => {
-      console.log(error);
+      console.log('Error fetching');
     });
   }, [preferneces]);
 

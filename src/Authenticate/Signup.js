@@ -36,7 +36,6 @@ const handleSignupSubmit = async (e) => {
     } catch (error) {
       setIsLoading(false);
       // Handle the error here, e.g., set an error state.
-      console.error(error);
     }
   };
   

@@ -38,7 +38,6 @@ function Login({onSubmit, error, alreadyHaveAcc, toSignUp, toLogIn}) {
         await onSubmit(formData); // Assuming `onSubmit` is an async function
         // If the login request is successful, you may redirect or perform other actions
       } catch (error) {
-        console.error('Error during login:', error);
         setLoginError('Login failed'); // Handle the login failure
       }
     }
