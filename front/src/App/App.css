@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Target autofilled inputs */
+input:-webkit-autofill {
+    /* Reset background and text color */
+    background-color: transparent !important;
+    color: inherit !important;
+
+    /* Add any other styles you want to apply */
+}
+/* Target autofilled inputs in various browsers */
+input:-webkit-autofill,
+input::first-line {
+    /* Reset background and text color */
+    background-color: transparent !important;
+    color: inherit !important;
+
+    /* Add any other styles you want to apply */
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 6px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #bbb9b9;
+    border-radius: 5px;
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
