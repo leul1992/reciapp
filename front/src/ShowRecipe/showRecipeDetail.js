@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import fetchData from "../utils/utils";
-import {saveToFavourites} from "../favourites/favourites";
+import {saveToFavourites} from "../controller/favourites";
 import useAuth from "../Authenticate/authenticate";
 import useHelper from "./showOrHide";
 import { FaArrowAltCircleLeft, FaCheck } from 'react-icons/fa';

@@ -1,75 +1,58 @@
 import axios from "axios";
-// eslint-disable-next-line no-unused-vars
 
-const apiKey = process.env.API_KEY;
+// API key (this should be stored in an environment variable in a real-world scenario)
+const apiKey = "7f54918060f647f68d63af48ee24d39b";
 
 const getEndpoint = (id) => {
-  console.log(apiKey);
   if (id) {
-    return `https://api.spoonacular.com/recipes/${id}/information?apiKey=a2d97f11eb174547adb78c7185b3f9c5`;
+    return `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`;
   } else {
-    return `https://api.spoonacular.com/recipes/complexSearch?apiKey=a2d97f11eb174547adb78c7185b3f9c5`;
+    return `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}`;
   }
 };
+
 function getOptions(id) {
-  let parsedId = id ? parseInt(id) : '';
-  const url = getEndpoint(parsedId);
-  const options = {};
-  const temp = {};
-  const KeyOrder = [];
-  const params= {
-    limitLicense: 'true'
+  const url = getEndpoint(id);
+  const options = {
+    method: 'GET',
+    url: url,
+    params: {
+      limitLicense: 'true'
+    }
   };
-  temp['method'] = 'GET';
-  KeyOrder.push('method');
-  temp['url'] = url;
-  KeyOrder.push('url');
-  if(!id){
-    temp['params'] = params;
-    KeyOrder.push('params');
+
+  return options;
+}
+
+// Fetch data from API
+const fetchData = (id, foodType, foodDiet, foodIntolerance, maxTime) => {
+  const options = getOptions(id);
+
+  if (foodType) {
+    const ft = foodType.join(',');
+    options.params.type = ft;
   }
 
-  for (const key of KeyOrder) {
-    options[key] = temp[key];
-  }
-  
-  return options;
-};
-// fetchData from api
-const fetchData = (id, foodType, foodDiet, foodintolerance, maxTime) => {
-  
-  const options = getOptions(id);
-  let ft = '';
-  let fd = '';
-  let fi = '';
-  if (foodType) {
-    ft = foodType.map(foods => foods + ',').join('');
-    options.params['type'] = ft;
-  }
-  
   if (foodDiet) {
-    fd = foodDiet.map(foods => foods).join('');
-    options.params['diet'] = fd;
+    const fd = foodDiet.join(',');
+    options.params.diet = fd;
   }
-  
-  if (foodintolerance) {
-    fi = foodintolerance.map(foods => foods + ',').join('');
-    options.params['intolerances'] = fi;
+
+  if (foodIntolerance) {
+    const fi = foodIntolerance.join(',');
+    options.params.intolerances = fi;
   }
-  
-  if (maxTime){
-    options.params['maxReadyTime'] = parseInt(maxTime);
+
+  if (maxTime) {
+    options.params.maxReadyTime = parseInt(maxTime, 10);
   }
-  return new Promise((resolve, reject) => {
-    axios.request(options)
-      .then(response => {
-        resolve(response.data);
-      })
-      .catch(error => {
-        const errorMessage = error.response ? error.response.data.message : 'Network error';
-      reject(errorMessage);
-      });
-  });
+
+  return axios.request(options)
+    .then(response => response.data)
+    .catch(error => {
+      const errorMessage = error.response ? error.response.data.message : 'Network error';
+      throw new Error(errorMessage);
+    });
 };
 
 export default fetchData;

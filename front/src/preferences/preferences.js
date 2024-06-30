@@ -1,158 +1,113 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { FaUtensils, FaLeaf, FaExclamationTriangle, FaClock } from "react-icons/fa";
+import PreferenceCategory from "./PreferenceCategory";
+import PreferenceDetails from "./PreferenceDetails";
+import { usePreferences } from "../context/PreferenceContext";
 import { type, diet, intolerance } from "./preferenceData";
-import { addPreference, removePreference, setMaxTime, removeMaxTime } from "../actions";
-import { useSelector, useDispatch } from "react-redux";
 
-function CheckBox(props) {
-  const { name, value, checked, onChange } = props;
+function SelectPreference() {
+  const { state, dispatch } = usePreferences();
+  const [activeCategory, setActiveCategory] = useState(null);
+
+ 
+
+  const handlePreferenceChange = (preferenceType, preferenceValue) => {
+    if (state[preferenceType].includes(preferenceValue)) {
+      dispatch({ type: "REMOVE_PREFERENCE", payload: { preferenceType, preferenceValue } });
+    } else {
+      dispatch({ type: "ADD_PREFERENCE", payload: { preferenceType, preferenceValue } });
+    }
+  };
+
+  const handleMaxTimeChange = (event) => {
+    const value = event.target.value;
+    if (value >= 10 && value <= 200) {
+      dispatch({ type: "SET_MAX_TIME", payload: value });
+    } else {
+      dispatch({ type: "REMOVE_MAX_TIME" });
+    }
+  };
+
+  const toggleCategory = (category) => {
+    setActiveCategory(activeCategory === category ? null : category);
+  };
+
+  const renderDetails = () => {
+    if (activeCategory === null) return null;
+
+    switch (activeCategory) {
+      case "type":
+        return (
+          <PreferenceDetails
+            items={type}
+            selectedItems={state.type}
+            onItemClick={(item) => handlePreferenceChange("type", item)}
+          />
+        );
+      case "diet":
+        return (
+          <PreferenceDetails
+            items={diet}
+            selectedItems={state.diet}
+            onItemClick={(item) => handlePreferenceChange("diet", item)}
+          />
+        );
+      case "intolerance":
+        return (
+          <PreferenceDetails
+            items={intolerance}
+            selectedItems={state.intolerance}
+            onItemClick={(item) => handlePreferenceChange("intolerance", item)}
+          />
+        );
+      case "maxTime":
+        return (
+          <input
+            name="maxTime"
+            type="number"
+            min={10}
+            max={200}
+            value={state.maxTime || ""}
+            className="border-2 border-gray-600 w-full px-2 outline-none mt-2"
+            onChange={handleMaxTimeChange}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div
-      className={`my-1 text-center py-2 ${checked ? "bg-green-500 hover:bg-green-400" : "bg-[#25254e] hover:bg-[#5d5d88]"} text-white cursor-pointer`}
-      onClick={onChange} // Make the outer div clickable
-    >
-      {value}
+    <div className="p-4 w-full custom-scrollbar" style={{ overflowY: "scroll", maxHeight: "400px" }}>
+      <div className="flex flex-col sm:flex-row justify-between mb-4">
+        <PreferenceCategory
+          icon={FaUtensils}
+          label="Type"
+          isActive={activeCategory === "type"}
+          onClick={() => toggleCategory("type")}
+        />
+        <PreferenceCategory
+          icon={FaLeaf}
+          label="Diet"
+          isActive={activeCategory === "diet"}
+          onClick={() => toggleCategory("diet")}
+        />
+        <PreferenceCategory
+          icon={FaExclamationTriangle}
+          label="Intolerance"
+          isActive={activeCategory === "intolerance"}
+          onClick={() => toggleCategory("intolerance")}
+        />
+        <PreferenceCategory
+          icon={FaClock}
+          label="Max-Time"
+          isActive={activeCategory === "maxTime"}
+          onClick={() => toggleCategory("maxTime")}
+        />
+      </div>
+      <div className="mt-4">{renderDetails()}</div>
     </div>
   );
 }
 
-
-class Preference extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      toggle: null,
-    }
-  }
-
-  handleClick = (index) => {
-    if (index !== this.state.toggle){
-    this.setState({
-      toggle: index,
-    })}
-    else {
-      this.setState({
-        toggle: null,
-      })
-    }
-  }
-    renderType(i) {
-      return(
-        <CheckBox
-        name="type"
-        value={type[i]}
-        checked={this.props.type.includes(type[i])}
-        onChange={() => this.props.onClick("type", type[i])}
-        />
-    );
-  }
-  renderDiet(i) {
-      return(
-        <CheckBox
-        name="diet"
-        value={diet[i]}
-        checked={this.props.diet.includes(diet[i])}
-        onChange={() => this.props.onClick("diet", diet[i])}
-        />
-    );
-  }
-  renderIntolerance(i) {
-      return(
-        <CheckBox
-        name="intolerance"
-        value={intolerance[i]}
-        checked={this.props.intolerance.includes(intolerance[i])}
-        onChange={() => this.props.onClick("intolerance", intolerance[i])}
-        />
-    );
-  }
-
-  render() {
-    return (
-      <div className="">
-        <div className="cursor-pointer">
-          <h3
-          onClick={() => this.handleClick(0)}
-          className=" font-semibold">Type</h3>
-          {this.state.toggle === 0 && type.map(foodtype => (
-            this.renderType(type.indexOf(foodtype))
-          ))}
-        </div>
-        
-        <div className="">
-          <h3
-          onClick={() => this.handleClick(1)}
-          className="cursor-pointer font-semibold">Diet</h3>
-          {this.state.toggle === 1 && diet.map(foodDiet =>(
-            this.renderDiet(diet.indexOf(foodDiet))
-          ))}
-        </div>
-        <div className="cursor-pointer">
-          <h3
-          onClick={() => this.handleClick(2)}
-          className="font-semibold">Intolerance</h3>
-          {this.state.toggle === 2 && intolerance.map(foodintolerance => (
-            this.renderIntolerance(intolerance.indexOf(foodintolerance))
-          ))}
-        </div>
-        <div className="cursor-pointer font-semibold">
-          <h3
-          onClick={() => {this.handleClick(3)}}
-          >Max-Time 10-200 Min</h3>
-          {this.state.toggle === 3 && 
-          <input
-          name="maxTime"
-          type="number"
-          min={10}
-          max={200}
-          className="border-2 border-gray-600 w-full px-2 outline-none"
-          onChange={(event) => this.props.onChange( event.target.value)}
-          >
-          </input>}
-        </div>
-      </div>
-    )
-  }
-  }
-
-  function SelectPreference() {
-    const preferences = useSelector(state => state.preferences);
-    const dispatch = useDispatch();
-    
-      function handlePreferenceChange(preferenceType, preferenceValue) {
-        if (preferences[preferenceType].includes(preferenceValue)) {
-          dispatch(removePreference(preferenceType, preferenceValue));
-        } else {
-          dispatch(addPreference(preferenceType, preferenceValue));
-        }
-      }
-    
-      function handleMaxTime(preferenceValue) {
-        if (preferenceValue >= 10 && preferenceValue <= 200) {
-          dispatch(setMaxTime(preferenceValue));
-        }
-        else{
-          dispatch(removeMaxTime());
-        }
-      }
-  
-    return (
-      <>
-      <div>
-        
-        <Preference
-          type={preferences.type}
-          diet={preferences.diet}
-          intolerance={preferences.intolerance}
-          maxTime={preferences.maxTime}
-          onClick={handlePreferenceChange}
-          onChange={handleMaxTime}
-        />
-        
-      </div>
-      
-      </>
-    );
-  }
-
-  export default SelectPreference;
- 
+export default SelectPreference;

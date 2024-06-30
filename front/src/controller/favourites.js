@@ -23,3 +23,17 @@ export const deleteFromFavourites = async (userId, recipeId) => {
     console.error('can\'t delete');
   }
 }
+
+export const getFavourites = async (userId) => {
+  try {
+    const response = await fetch("/api/showfavourites", {
+      method: "POST",
+      body: JSON.stringify({ userId }),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("can't fetch");
+  }
+};
