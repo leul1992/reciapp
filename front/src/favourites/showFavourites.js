@@ -74,7 +74,7 @@ const ShowFavourites = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col items-center pt-16 mx-10 md:mx-0 gap-6">
+      <div className="flex pb-10 flex-col items-center pt-16 mx-10 md:mx-0 gap-6">
         <FaArrowAltCircleLeft
           onClick={hideFavouriteHandler}
           className="self-start ml-4 text-green-500 hover:text-green-700 cursor-pointer"
@@ -83,7 +83,7 @@ const ShowFavourites = () => {
         {favourites.length > 0 ? (
           <>
             <h2 className="text-green-700 text-xl mb-4">Your Favourites</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 px-2 lg:grid-cols-5 xl:grid-cols-6 gap-6">
               {favourites.map((recipeDetails) => (
                 <div key={recipeDetails.id} className="relative group">
                   <div
