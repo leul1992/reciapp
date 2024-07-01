@@ -14,35 +14,38 @@ export const HIDEDETAIL = 'HIDEDETAIL';
 export const SHOW_FAVOURITES = 'SHOW_FAVOURITES';
 export const HIDE_FAVOURITES = 'HIDE_FAVOURITES';
 
-
 export function addPreference(preferenceType, preferenceValue) {
   return {
     type: ADD_PREFERENCE,
-    preferenceType,
-    preferenceValue,
+    payload: {
+      preferenceType,
+      preferenceValue,
+    },
   };
 }
 
 export function removePreference(preferenceType, preferenceValue) {
   return {
     type: REMOVE_PREFERENCE,
-    preferenceType,
-    preferenceValue,
+    payload: {
+      preferenceType,
+      preferenceValue,
+    },
   };
 }
 
 export function setMaxTime(preferenceValue) {
   return {
     type: SET_MAX_TIME,
-    preferenceValue,
+    payload: preferenceValue,
   };
 }
 
 export function removeMaxTime() {
-    return {
-      type: REMOVE_MAX_TIME,
-    };
-  }
+  return {
+    type: REMOVE_MAX_TIME,
+  };
+}
 
 export function loginUser(userData) {
   return {

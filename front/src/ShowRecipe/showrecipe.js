@@ -9,7 +9,6 @@ import { MdStarBorder, MdStar } from "react-icons/md";
 import Header from "../Header/header";
 import { getFavourites, saveToFavourites, deleteFromFavourites } from "../controller/favourites";
 import useAuth from "../Authenticate/authenticate";
-import { PreferencesProvider } from "../context/PreferenceContext";
 
 function ShowRecipe() {
   const [recipes, setRecipes] = useState([]);
@@ -20,12 +19,12 @@ function ShowRecipe() {
 
   useEffect(() => {
     fetchData('', preferences.type, preferences.diet, preferences.intolerance, preferences.maxTime)
-    .then(data => {
-      setRecipes(data.results);
-    })
-    .catch(error => {
-      console.log('Error fetching');
-    });
+      .then(data => {
+        setRecipes(data.results);
+      })
+      .catch(error => {
+        console.log('Error fetching');
+      });
 
     const fetchFavourites = async () => {
       const favouriteData = await getFavourites(authentication.user.id);
@@ -68,13 +67,9 @@ function ShowRecipe() {
       ) : (
         <div className="flex flex-col">
           <Header />
-
           <div className="flex items-center pt-16 cursor-pointer text-green-800 text-xl font-semibold">
-            <PreferencesProvider>
-              <SelectPreference />
-            </PreferencesProvider>
+            <SelectPreference />
           </div>
-
           <div className="grid justify-self-center grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 items-center justify-center px-6 md:px-32 md:ml-10 py-4">
             {recipes.map((recipe) => (
               <div

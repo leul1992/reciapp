@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // API key (this should be stored in an environment variable in a real-world scenario)
-const apiKey = "7f54918060f647f68d63af48ee24d39b";
+const apiKey = process.env.REACT_APP_API_KEY;
 
 const getEndpoint = (id) => {
   if (id) {

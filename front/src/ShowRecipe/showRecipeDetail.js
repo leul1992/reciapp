@@ -16,6 +16,8 @@ function ShowRecipeDetail(props) {
   const [saveMessage, setSaveMessage] = useState([null, null]);
 
   useEffect(() => {
+    console.log('fetching detail')
+    console.log(props.id)
     fetchData(props.id).then(data => {
       setRecipeDetails(data);
     }).catch(error => {
